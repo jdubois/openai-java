@@ -1,11 +1,12 @@
-name: test.yml
+name: Test GraalVM Native Image Agent
 on:
   push:
     branches:
-      - ${{ github.ref_name }}
+      - 'fix-522'
 
 jobs:
-  test:
+  generate-native-image-metadata:
+    name: Generate GraalVM Native Image Metadata
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
