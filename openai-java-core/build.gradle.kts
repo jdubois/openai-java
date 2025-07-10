@@ -2,6 +2,7 @@ plugins {
     id("java")
     id("openai.kotlin")
     id("openai.publish")
+    id("org.graalvm.buildtools.native") version "0.10.6"
 }
 
 configurations.all {
@@ -43,6 +44,19 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.14.2")
     testImplementation("org.mockito:mockito-junit-jupiter:5.14.2")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+}
+
+graalvmNative {
+    toolchainDetection.set(true)
+
+    agent {
+        enabled.set(true)
+        metadataCopy {
+            inputTaskNames.add("test")
+            outputDirectories.add("resources/META-INF/native-image")
+            mergeWithExisting.set(false)
+        }
+    }
 }
 
 tasks.test {
