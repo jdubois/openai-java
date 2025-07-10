@@ -1,0 +1,29 @@
+name: test.yml
+on:
+  push:
+    branches:
+      - ${{ github.ref_name }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: 17
+          distribution: 'graalvm'
+          cache: gradle
+
+      - name: Run tests with the GraalVM native-image agent
+        run: ./gradlew :openai-java-core:test -agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image
+
+      - name: Commit GraalVM metadata file
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add openai-java-core/src/main/resources/META-INF/native-image/reachability-metadata.json
+          git commit -m "Add native-image reachability metadata [skip ci]" || echo "No changes to commit"
+          git push
