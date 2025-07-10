@@ -1,4 +1,5 @@
 plugins {
+    id("java")
     id("openai.kotlin")
     id("openai.publish")
 }
@@ -42,4 +43,8 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.14.2")
     testImplementation("org.mockito:mockito-junit-jupiter:5.14.2")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+}
+
+tasks.test {
+    jvmArgs = listOf("-agentlib:native-image-agent=config-output-dir=openai-java-core/src/main/resources/META-INF/native-image")
 }

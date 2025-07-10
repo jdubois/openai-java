@@ -25,7 +25,7 @@ jobs:
 
       - name: Run tests with the GraalVM native-image agent
         run:  |
-          ./gradlew :openai-java-core:test -Dtest.jvmargs="-agentlib:native-image-agent=config-output-dir=openai-java-core/src/main/resources/META-INF/native-image"
+          ./gradlew :openai-java-core:test
 
       - name: Commit GraalVM metadata file
         run: |
