@@ -68,6 +68,6 @@ if (project.hasProperty("agent")) {
 
     tasks.test {
         jvmArgs =
-            listOf("-agentlib:native-image-agent=config-output-dir=openai-java-core/src/main/resources/META-INF/native-image")
+            listOf("-agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image")
     }
 }
