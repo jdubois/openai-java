@@ -19,6 +19,13 @@ jobs:
           distribution: 'graalvm'
           cache: gradle
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
       - name: Run the Prism server
         run: |
           ./scripts/mock --daemon

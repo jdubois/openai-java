@@ -53,21 +53,8 @@ if (project.hasProperty("agent")) {
         }
     }
 
-    graalvmNative {
-        toolchainDetection.set(true)
-
-        agent {
-            enabled.set(true)
-            metadataCopy {
-                inputTaskNames.add("test")
-                outputDirectories.add("resources/META-INF/native-image")
-                mergeWithExisting.set(false)
-            }
-        }
-    }
-
-    tasks.named<Test>("test") {
-        val existingArgs = jvmArgs ?: emptyList()
-        jvmArgs = existingArgs + "-agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image"
+    tasks.test {
+        jvmArgs =
+            listOf("-agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image")
     }
 }
