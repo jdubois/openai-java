@@ -41,11 +41,11 @@ jobs:
       - name: Check generated GraalVM file
         run: |
           echo "Checking for GraalVM agent metadata file... 1/3"
-          ll openai-java-core/src/main/resources/META-INF/native-image
+          ls -al openai-java-core/src/main/resources/META-INF/native-image
           echo "Checking for GraalVM agent metadata file... 2/3"
-          ll src/main/resources/META-INF/native-image
+          ls -al src/main/resources/META-INF/native-image
           echo "Checking for GraalVM agent metadata file... 3/3"
-          ll openai-java-core/src/main/resources
+          ls -al openai-java-core/src/main/resources
           
           FILE=openai-java-core/src/main/resources/META-INF/native-image/reachability-metadata.json
           if [ ! -f $FILE ]; then
