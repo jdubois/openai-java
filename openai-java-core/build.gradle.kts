@@ -2,7 +2,6 @@ plugins {
     id("java")
     id("openai.kotlin")
     id("openai.publish")
-    id("org.graalvm.buildtools.native") version "0.10.6"
 }
 
 configurations.all {
