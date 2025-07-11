@@ -21,7 +21,7 @@ jobs:
 
       - name: Compile the project
         run:  |
-          ./gradlew :openai-java-core:compileJava :openai-java-core:compileTestJava -x test
+          ./gradlew :openai-java-core:compileJava :openai-java-core:compileTestJava -x test --no-daemon
 
       - name: Run the Prism server
         run: |
@@ -37,7 +37,7 @@ jobs:
       - name: Run tests with the GraalVM native-image agent
         run:  |
           java -version
-          ./gradlew :openai-java-core:test -x compileJava -x compileTestJava -x compileKotlin -x compileTestKotlin -Pagent
+          ./gradlew :openai-java-core:test -x compileJava -x compileTestJava -x compileKotlin -x compileTestKotlin -Pagent --no-daemon
 
       - name: Commit GraalVM metadata file
         run: |
