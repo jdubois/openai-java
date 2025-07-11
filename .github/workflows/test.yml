@@ -12,20 +12,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup GraalVM
-        uses: graalvm/setup-graalvm@v1
+      - name: Set up Java
+        uses: actions/setup-java@v4
         with:
+          distribution: temurin
           java-version: 17
-          distribution: 'graalvm'
           cache: gradle
+
+      - name: Compile the project
+        run:  |
+          ./gradlew :openai-java-core:compileJava -x test
 
       - name: Run the Prism server
         run: |
           ./scripts/mock --daemon
 
+      - name: Setup GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: 24
+          distribution: 'graalvm'
+          cache: gradle
+
       - name: Run tests with the GraalVM native-image agent
         run:  |
-          ./gradlew :openai-java-core:test -Pagent
+          ./gradlew :openai-java-core:test -x compileJava -x compileTestJava -Pagent
 
       - name: Commit GraalVM metadata file
         run: |
