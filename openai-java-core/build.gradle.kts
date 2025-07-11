@@ -46,25 +46,28 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
-graalvmNative {
-    toolchainDetection.set(true)
-
-    agent {
-        enabled.set(true)
-        metadataCopy {
-            inputTaskNames.add("test")
-            outputDirectories.add("resources/META-INF/native-image")
-            mergeWithExisting.set(false)
+if (project.hasProperty("agent")) {
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
         }
     }
-}
 
-tasks.test {
-    jvmArgs = listOf("-agentlib:native-image-agent=config-output-dir=openai-java-core/src/main/resources/META-INF/native-image")
+    graalvmNative {
+        toolchainDetection.set(true)
+
+        agent {
+            enabled.set(true)
+            metadataCopy {
+                inputTaskNames.add("test")
+                outputDirectories.add("resources/META-INF/native-image")
+                mergeWithExisting.set(false)
+            }
+        }
+    }
+
+    tasks.test {
+        jvmArgs =
+            listOf("-agentlib:native-image-agent=config-output-dir=openai-java-core/src/main/resources/META-INF/native-image")
+    }
 }
