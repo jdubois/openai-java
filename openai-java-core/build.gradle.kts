@@ -54,6 +54,8 @@ if (project.hasProperty("agent")) {
     }
 
     tasks.test {
+        maxParallelForks = 1
+        forkEvery = 0
         jvmArgs =
             listOf("-agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image")
     }
