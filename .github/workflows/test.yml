@@ -40,6 +40,8 @@ jobs:
       - name: Run tests with the GraalVM native-image agent
         run:  |
           java -version
+          jps
+          ps -aux
           ./gradlew :openai-java-core:test -x compileJava -x compileTestJava -x compileKotlin -x compileTestKotlin -Pagent
 
       - name: Commit GraalVM metadata file
