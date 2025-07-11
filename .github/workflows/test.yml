@@ -31,13 +31,13 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           java-version: 21
-          distribution: 'graalvm'
+          distribution: 'graalvm-community'
           cache: gradle
 
       - name: Run tests with the GraalVM native-image agent
         run:  |
           java -version
-          ./gradlew :openai-java-core:test -x compileJava -x compileTestJava -Pagent
+          ./gradlew :openai-java-core:test -x compileJava -x compileTestJava -x compileKotlin -x compileTestKotlin -Pagent
 
       - name: Commit GraalVM metadata file
         run: |
