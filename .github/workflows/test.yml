@@ -30,7 +30,7 @@ jobs:
       - name: Setup GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: 24
+          java-version: 21
           distribution: 'graalvm'
           cache: gradle
 
