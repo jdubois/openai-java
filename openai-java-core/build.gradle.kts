@@ -46,6 +46,12 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 graalvmNative {
     toolchainDetection.set(true)
 
