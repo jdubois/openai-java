@@ -57,6 +57,6 @@ if (project.hasProperty("agent")) {
         maxParallelForks = 1
         forkEvery = 0
         jvmArgs =
-            listOf("-agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image")
+            listOf("-agentlib:native-image-agent=openai-java-core/config-output-dir=src/main/resources/META-INF/native-image")
     }
 }
