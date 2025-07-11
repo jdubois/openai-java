@@ -2,6 +2,7 @@ plugins {
     id("java")
     id("openai.kotlin")
     id("openai.publish")
+    id("org.graalvm.buildtools.native") version "0.10.6"
 }
 
 configurations.all {
@@ -52,8 +53,24 @@ if (project.hasProperty("agent")) {
         }
     }
 
-    tasks.test {
-        jvmArgs =
-            listOf("-agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image")
+    graalvmNative {
+        toolchainDetection.set(true)
+        binaries {
+            all {
+                javaLauncher.set(javaToolchains.launcherFor {
+                    languageVersion.set(JavaLanguageVersion.of(17))
+                    vendor.set(JvmVendorSpec.GRAAL_VM)
+                })
+            }
+        }
+
+        agent {
+            enabled.set(true)
+            metadataCopy {
+                inputTaskNames.add("test")
+                outputDirectories.add("resources/META-INF/native-image")
+                mergeWithExisting.set(false)
+            }
+        }
     }
 }
