@@ -20,11 +20,8 @@ jobs:
           cache: gradle
 
       - name: Compile the project
-        run:  |
+        run: |
           ./gradlew :openai-java-core:compileJava :openai-java-core:compileTestJava -x test
-
-      - name: Stop Gradle daemon
-        run: ./gradlew --stop
 
       - name: Run the Prism server
         run: |
@@ -38,17 +35,15 @@ jobs:
           cache: gradle
 
       - name: Run tests with the GraalVM native-image agent
-        run:  |
-          java -version
-          jps
-          ps -aux
+        run: |
           ./gradlew :openai-java-core:test -x compileJava -x compileTestJava -x compileKotlin -x compileTestKotlin -Pagent
 
-      - name: Commit GraalVM metadata file
+      - name: Check generated GraalVM file
         run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git status
-          git add openai-java-core/src/main/resources/META-INF/native-image/reachability-metadata.json
-          git commit -m "Add native-image reachability metadata [skip ci]" || echo "No changes to commit"
-          git push
+          FILE=openai-java-core/src/main/resources/META-INF/native-image/reachability-metadata.json
+          if [ ! -f $FILE ]; then
+            echo "GraalVM agent metadata file not found!"
+            exit 1
+          fi
+          echo "GraalVM agent metadata file found at $FILE"
+          cat $FILE
