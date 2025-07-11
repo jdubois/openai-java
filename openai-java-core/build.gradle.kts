@@ -66,8 +66,8 @@ if (project.hasProperty("agent")) {
         }
     }
 
-    tasks.test {
-        jvmArgs =
-            listOf("-agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image")
+    tasks.named<Test>("test") {
+        val existingArgs = jvmArgs ?: emptyList()
+        jvmArgs = existingArgs + "-agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image"
     }
 }
